@@ -1,6 +1,7 @@
 [package]
 name = "payments"
 published-at = "0x47622f5c36eb08237116b11614272cfba2ab6410a6575e8bc8afd25ef827d2cf"
+edition = "2024.beta"
 
 [dependencies]
 Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/testnet" }
