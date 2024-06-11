@@ -6,9 +6,7 @@ edition = "2024.beta"
 [dependencies]
 Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/testnet" }
 karrier = { local = "../tko" }
-karrier_voucher = { local = "../kns_voucher_nft" }
 
 [addresses]
 payments = "0x0"
 karrier = "0xe245a51bb36b4427fcc5153357a602d534354e33a24ef173e6e0dbc0542959e9"
-karrier_voucher = "0x46556502f051bdc73480bc107d9e03c4c3295943bdeba3e66e989526e14238be"

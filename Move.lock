@@ -2,13 +2,12 @@
 
 [move]
 version = 0
-manifest_digest = "4B8BD71C25A5222538BA3479871EBE94C310E61033B8A0985CDD879C4FFED560"
-deps_digest = "060AD7E57DFB13104F21BE5F5C3759D03F0553FC3229247D9A7A6B45F50D03A3"
+manifest_digest = "DB7909E5DB878B5FB808C15BAC2BAFA58307DBA317F5E29FA6FA0485BEFB775A"
+deps_digest = "3C4103934B1E040BB6B23F1D610B4EF9F2F1166A50A104EADCF77467C004C600"
 
 dependencies = [
   { name = "Sui" },
   { name = "karrier" },
-  { name = "karrier_voucher" },
 ]
 
 [[move.package]]
@@ -26,14 +25,6 @@ dependencies = [
 [[move.package]]
 name = "karrier"
 source = { local = "../tko" }
-
-dependencies = [
-  { name = "Sui" },
-]
-
-[[move.package]]
-name = "karrier_voucher"
-source = { local = "../kns_voucher_nft" }
 
 dependencies = [
   { name = "Sui" },

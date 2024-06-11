@@ -1,13 +1,11 @@
 module payments::pay {
     use std::string::{String, utf8};
-    use sui::package;
     use sui::coin::{Self, Coin};    
-    use sui::balance::{Self, Balance};          
-    use sui::tx_context::{sender};    
+    use sui::balance::{Self, Balance};
     use sui::event;
     use sui::sui::SUI;    
+    use payments::{kns_voucher::KNSVoucher};
     use karrier::tko::TKO;
-    use karrier_voucher::kns_voucher_nft::KNSVoucherNFT;
 
     public struct PAY has drop {}
     
@@ -22,15 +20,13 @@ module payments::pay {
         balance_kone: Balance<TKO>
     } 
     
-    fun init(otw: PAY, ctx: &mut TxContext) {       
-        let publisher = package::claim(otw, ctx);
-        transfer::public_transfer(publisher, sender(ctx));
+    fun init(_: PAY, ctx: &mut TxContext) {       
         transfer::share_object(ItemStore {
             id: object::new(ctx),
             balance_sui: balance::zero(),
             balance_kone: balance::zero()
         });        
-        transfer::public_transfer(AdminCap { id: object::new(ctx) }, sender(ctx));     
+        transfer::public_transfer(AdminCap { id: object::new(ctx) }, tx_context::sender(ctx));     
     }
 
     /// Admin action - collect Profits from the `ItemStore`.
@@ -90,12 +86,12 @@ module payments::pay {
     }
 
     public entry fun knsVoucher(
-        payment: KNSVoucherNFT,
+        payment: KNSVoucher,
         ref: String,
         system: String,
         ctx: &mut TxContext
     ) {
-        karrier_voucher::kns_voucher_nft::burn(payment, ctx);
+        payments::kns_voucher::burn(payment, ctx);
         event::emit(KNSVoucherReceived {
             ref,
             system
