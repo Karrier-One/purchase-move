@@ -1,7 +1,7 @@
-import { getFullnodeUrl, SuiClient } from "@mysten/sui.js/client";
-import { TransactionBlock, TransactionObjectArgument } from "@mysten/sui.js/transactions"
+import { getFullnodeUrl, SuiClient } from "@mysten/sui/client";
+import { Transaction, TransactionObjectArgument } from "@mysten/sui/transactions"
 import { fromB64 } from "@mysten/bcs";
-import { Ed25519Keypair } from "@mysten/sui.js/keypairs/ed25519";
+import { Ed25519Keypair } from "@mysten/sui/keypairs/ed25519";
 import * as fs from 'fs';
 import dotenv from 'dotenv';
 dotenv.config(); // This loads the environment variables from .env file
@@ -11,33 +11,33 @@ dotenv.config(); // This loads the environment variables from .env file
 export const raw = fromB64(process.env.SUI_PRIVATE_KEY!); 
 export const keypair = Ed25519Keypair.fromSecretKey(raw.slice(1));
 
-const packageId = "0x9ee959f9b543aa883a48a9d1739ffbec2530602e7f594ebfa4a5c5c9b000a12b";
-const adminCapId = "0xbacc0cc78c1480ea557f06c91427081cf6c6c1f0114cd5ea9ed406f75d5f35cf";
-const itemStoreId = "0x53254d6cc8929538be1c046162e1dc810dea8d45f6f21cf270877e11975af44c";
+const packageId = "0xb1af5470e25cebc7a91be28f09a9444dc99d76c8e8a2dc05927f76d40069e7bf";
+const adminCapId = "0xc68ede733e824e2806ad1365c50fdd8e4020f4a5024ef9c3813171980b61e019";
+const itemStoreId = "0x82246e03739a358206d86c0a8f28cab37e2b0211e958c5f68e9a0e1a9bdd1e4d";
 
 async function purchase_sui() {
     const client = new SuiClient({url: getFullnodeUrl("testnet")});
-    const txb = new TransactionBlock();
+    const txb = new Transaction();
         let coin = txb.splitCoins(txb.gas, [ 10_000_000 ]);
         
         txb.moveCall({
           target: `${packageId}::pay::sui`,
           arguments: [
-            txb.pure(itemStoreId),
+            txb.object(itemStoreId),
             coin,
             txb.pure.string('name'),
             txb.pure.string('system sui')
           ],
         });
 
-        const tx = await client.signAndExecuteTransactionBlock({
+        const tx = await client.signAndExecuteTransaction({
             signer: keypair,
-            transactionBlock: txb,
+            transaction: txb,
             options: {
                 showObjectChanges: true,
             }        
         });
-        const resp = await client.waitForTransactionBlock({
+        const resp = await client.waitForTransaction({
             digest: tx.digest,
         });
         console.log(JSON.stringify(tx));
@@ -49,26 +49,26 @@ async function purchase_sui() {
 
 async function purchase_kone() {
     const client = new SuiClient({url: getFullnodeUrl("testnet")});
-    const txb = new TransactionBlock();
+    const txb = new Transaction();
         let coin = txb.splitCoins('0x94093db3b446c667d77fa3710ed96ccdf501ce13677717fac7a8f427dbecb1ee', [ 15_000_000 ]);
         txb.moveCall({
             target: `${packageId}::pay::kone`,
             arguments: [
-              txb.pure(itemStoreId),
+              txb.object(itemStoreId),
               coin,
               txb.pure.string('fe2a075d-772e-4fd9-9bb7-56bf35d255ce'),
               txb.pure.string('system kone')
             ],
           });        
 
-        const tx = await client.signAndExecuteTransactionBlock({
+        const tx = await client.signAndExecuteTransaction({
             signer: keypair,
-            transactionBlock: txb,
+            transaction: txb,
             options: {
                 showObjectChanges: true,
             }        
         });
-        const resp = await client.waitForTransactionBlock({
+        const resp = await client.waitForTransaction({
             digest: tx.digest,
         });
         console.log(JSON.stringify(tx));
@@ -80,7 +80,7 @@ async function purchase_kone() {
 
 async function purchase_nft() {
     const client = new SuiClient({url: getFullnodeUrl("testnet")});
-    const txb = new TransactionBlock();    
+    const txb = new Transaction();    
     txb.moveCall({
         target: `${packageId}::pay::knsVoucher`,
         arguments: [
@@ -90,14 +90,14 @@ async function purchase_nft() {
         ],
       });         
 
-        const tx = await client.signAndExecuteTransactionBlock({
+        const tx = await client.signAndExecuteTransaction({
             signer: keypair,
-            transactionBlock: txb,
+            transaction: txb,
             options: {
                 showObjectChanges: true,
             }        
         });
-        const resp = await client.waitForTransactionBlock({
+        const resp = await client.waitForTransaction({
             digest: tx.digest,
         });
         console.log(JSON.stringify(tx));

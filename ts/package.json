@@ -10,23 +10,23 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@mysten/bcs": "^0.11.1",
-    "@mysten/kiosk": "^0.8.3",
-    "@mysten/sui.js": "^0.52.0",
+    "@mysten/bcs": "^1.0.2",
+    "@mysten/kiosk": "^0.9.10",
+    "@mysten/sui": "^1.2.1",
     "@types/json2csv": "^5.0.7",
-    "axios": "^1.6.7",
+    "axios": "^1.7.2",
     "csv-parser": "^3.0.0",
     "csv-writer": "^1.6.0",
     "dotenv": "^16.4.5",
     "fs": "^0.0.1-security",
     "json2csv": "^6.0.0-alpha.2",
-    "ws": "^8.16.0"
+    "ws": "^8.17.1"
   },
   "devDependencies": {
-    "@types/node": "^20.11.17",
+    "@types/node": "^20.14.9",
     "@types/ws": "^8.5.10",
     "ts-node": "^10.9.2",
-    "tslib": "^2.6.2",
-    "typescript": "^5.3.3"
+    "tslib": "^2.6.3",
+    "typescript": "^5.5.3"
   }
 }
