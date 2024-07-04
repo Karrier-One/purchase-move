@@ -11,71 +11,75 @@ dotenv.config(); // This loads the environment variables from .env file
 export const raw = fromB64(process.env.SUI_PRIVATE_KEY!); 
 export const keypair = Ed25519Keypair.fromSecretKey(raw.slice(1));
 
-const packageId = "0xb1af5470e25cebc7a91be28f09a9444dc99d76c8e8a2dc05927f76d40069e7bf";
-const adminCapId = "0xc68ede733e824e2806ad1365c50fdd8e4020f4a5024ef9c3813171980b61e019";
-const itemStoreId = "0x82246e03739a358206d86c0a8f28cab37e2b0211e958c5f68e9a0e1a9bdd1e4d";
+// const packageId = "0x2bd4ae0f9c15728723cfd5a6208108b7c6bfa46622fcc0dd1519fe91d4a709ff"; // v1
+// sui client upgrade --upgrade-capability 0xab06fc4f8bebddb5681ffb18762502c934d7020541c6fcfe3e73fe42b52d739d
+const packageId = "0x3f45e7e62b25812c7987192208d944adbcc6ad7712ca59d90835e041c9ad8634"; // v2
 
 async function purchase_sui() {
     const client = new SuiClient({url: getFullnodeUrl("testnet")});
     const txb = new Transaction();
-        let coin = txb.splitCoins(txb.gas, [ 10_000_000 ]);
-        
-        txb.moveCall({
-          target: `${packageId}::pay::sui`,
-          arguments: [
-            txb.object(itemStoreId),
-            coin,
-            txb.pure.string('name'),
-            txb.pure.string('system sui')
-          ],
-        });
+    let coin = txb.splitCoins(txb.gas, [ 10_000_000 ]);
+    
+    txb.moveCall({
+        target: `${packageId}::pay::payCoin`,
+        arguments: [
+        coin,
+        txb.pure.string('name'),
+        txb.pure.string('system sui')
+        ],
+        typeArguments: [
+            '0x2::sui::SUI'
+        ]
+    });
 
-        const tx = await client.signAndExecuteTransaction({
-            signer: keypair,
-            transaction: txb,
-            options: {
-                showObjectChanges: true,
-            }        
-        });
-        const resp = await client.waitForTransaction({
-            digest: tx.digest,
-        });
-        console.log(JSON.stringify(tx));
-        const created = tx.objectChanges?.filter(change => change.type === "created") ?? [];
-        logToFile(JSON.stringify(tx), 'purchase_sui_log.txt');
-        logToFile(JSON.stringify(created), 'purchase_sui_log.txt');
-        logToFile(JSON.stringify(resp), 'purchase_sui_log.txt');    
+    const tx = await client.signAndExecuteTransaction({
+        signer: keypair,
+        transaction: txb,
+        options: {
+            showObjectChanges: true,
+        }        
+    });
+    const resp = await client.waitForTransaction({
+        digest: tx.digest,
+    });
+    console.log(JSON.stringify(tx));
+    const created = tx.objectChanges?.filter(change => change.type === "created") ?? [];
+    logToFile(JSON.stringify(tx), 'purchase_sui_log.txt');
+    logToFile(JSON.stringify(created), 'purchase_sui_log.txt');
+    logToFile(JSON.stringify(resp), 'purchase_sui_log.txt');
 }
 
 async function purchase_kone() {
     const client = new SuiClient({url: getFullnodeUrl("testnet")});
     const txb = new Transaction();
-        let coin = txb.splitCoins('0x94093db3b446c667d77fa3710ed96ccdf501ce13677717fac7a8f427dbecb1ee', [ 15_000_000 ]);
-        txb.moveCall({
-            target: `${packageId}::pay::kone`,
-            arguments: [
-              txb.object(itemStoreId),
-              coin,
-              txb.pure.string('fe2a075d-772e-4fd9-9bb7-56bf35d255ce'),
-              txb.pure.string('system kone')
-            ],
-          });        
+    let coin = txb.splitCoins('0x94093db3b446c667d77fa3710ed96ccdf501ce13677717fac7a8f427dbecb1ee', [ 15_000_000 ]);
+    txb.moveCall({
+        target: `${packageId}::pay::payCoin`,
+        arguments: [
+            coin,
+            txb.pure.string('fe2a075d-772e-4fd9-9bb7-56bf35d255ce'),
+            txb.pure.string('system kone')
+        ],
+        typeArguments: [
+            '0xe245a51bb36b4427fcc5153357a602d534354e33a24ef173e6e0dbc0542959e9::tko::TKO'
+        ]
+        });        
 
-        const tx = await client.signAndExecuteTransaction({
-            signer: keypair,
-            transaction: txb,
-            options: {
-                showObjectChanges: true,
-            }        
-        });
-        const resp = await client.waitForTransaction({
-            digest: tx.digest,
-        });
-        console.log(JSON.stringify(tx));
-        const created = tx.objectChanges?.filter(change => change.type === "created") ?? [];
-        logToFile(JSON.stringify(tx), 'purchase_kone_log.txt');
-        logToFile(JSON.stringify(created), 'purchase_kone_log.txt');
-        logToFile(JSON.stringify(resp), 'purchase_kone_log.txt');    
+    const tx = await client.signAndExecuteTransaction({
+        signer: keypair,
+        transaction: txb,
+        options: {
+            showObjectChanges: true,
+        }        
+    });
+    const resp = await client.waitForTransaction({
+        digest: tx.digest,
+    });
+    console.log(JSON.stringify(tx));
+    const created = tx.objectChanges?.filter(change => change.type === "created") ?? [];
+    logToFile(JSON.stringify(tx), 'purchase_kone_log.txt');
+    logToFile(JSON.stringify(created), 'purchase_kone_log.txt');
+    logToFile(JSON.stringify(resp), 'purchase_kone_log.txt');    
 }
 
 async function purchase_nft() {

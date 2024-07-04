@@ -2,12 +2,11 @@
 
 [move]
 version = 0
-manifest_digest = "DB7909E5DB878B5FB808C15BAC2BAFA58307DBA317F5E29FA6FA0485BEFB775A"
-deps_digest = "3C4103934B1E040BB6B23F1D610B4EF9F2F1166A50A104EADCF77467C004C600"
+manifest_digest = "5107C7A55A54514FCE8999BFB9541A0A587548C174890E7B6ED52AC1470346BE"
+deps_digest = "F8BBB0CCB2491CA29A3DF03D6F92277A4F3574266507ACD77214D37ECA3F3082"
 
 dependencies = [
   { name = "Sui" },
-  { name = "karrier" },
 ]
 
 [[move.package]]
@@ -22,16 +21,8 @@ dependencies = [
   { name = "MoveStdlib" },
 ]
 
-[[move.package]]
-name = "karrier"
-source = { local = "../tko" }
-
-dependencies = [
-  { name = "Sui" },
-]
-
 [move.toolchain-version]
-compiler-version = "1.26.1"
+compiler-version = "1.29.0"
 edition = "2024.beta"
 flavor = "sui"
 
@@ -39,6 +30,6 @@ flavor = "sui"
 
 [env.testnet]
 chain-id = "4c78adac"
-original-published-id = "0xb1af5470e25cebc7a91be28f09a9444dc99d76c8e8a2dc05927f76d40069e7bf"
-latest-published-id = "0xb1af5470e25cebc7a91be28f09a9444dc99d76c8e8a2dc05927f76d40069e7bf"
-published-version = "1"
+original-published-id = "0x2bd4ae0f9c15728723cfd5a6208108b7c6bfa46622fcc0dd1519fe91d4a709ff"
+latest-published-id = "0x3f45e7e62b25812c7987192208d944adbcc6ad7712ca59d90835e041c9ad8634"
+published-version = "3"
