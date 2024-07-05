@@ -56,22 +56,30 @@ module payments::kns_voucher {
         transfer::public_transfer(AdminCap { id: object::new(ctx) }, tx_context::sender(ctx));        
     }
 
-     public fun airdrop(
+    public fun airdrop(
         _: &AdminCap,
+        recipient: address,
+        ctx: &mut TxContext
+    ) {
+        let nft = KNSVoucher { id: object::new(ctx) };
+        event::emit(VoucherMinted {
+            object_id: object::id(&nft)
+        });
+        transfer::public_transfer(nft, recipient);    
+    }
+
+    public fun airdrop_multi(
+        admin: &AdminCap,
         mut recipients: vector<address>,
         ctx: &mut TxContext
     ) {
         let (mut i, len) = (0, vector::length(&recipients));
-        while (i < len) {
+        while (i < len) {            
             let recipient = vector::pop_back(&mut recipients);
-            let nft = KNSVoucher { id: object::new(ctx) };
-            event::emit(VoucherMinted {
-                object_id: object::id(&nft)
-            });
-            transfer::public_transfer(nft, recipient);
+            airdrop(admin, recipient, ctx);
             i = i + 1;
-        };
-    }
+        }
+    }     
 
     public fun burn(nft: KNSVoucher, _: &mut TxContext) {
         let KNSVoucher { id } = nft;

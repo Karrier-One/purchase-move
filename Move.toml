@@ -1,6 +1,6 @@
 [package]
 name = "payments"
-published-at = "0x3f45e7e62b25812c7987192208d944adbcc6ad7712ca59d90835e041c9ad8634"
+published-at = "0xabb29d54cb24de9572a10e10b21f420b4715a419cf1de88ae8ced28a52cf1f38"
 edition = "2024.beta"
 
 [dependencies]
