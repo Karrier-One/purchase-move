@@ -11,7 +11,9 @@ async function processEvents() {
       limit: 1000
     }
   );
-  console.log(events);
+  for (let event of events.data) {
+    console.dir(event, { depth: 4});
+  }
 
   let voucher_events = await provider.queryEvents({
     query:{
@@ -20,8 +22,10 @@ async function processEvents() {
     order: 'descending',
     limit: 1000
   }
-);
-console.log(voucher_events);  
+  );
+  for (let event of voucher_events.data) {
+    console.dir(event, { depth: 4});
+  }
 }
 
 processEvents();

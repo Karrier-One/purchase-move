@@ -20,6 +20,11 @@ module payments::kns_voucher {
         object_id: ID,
     }
 
+    public struct VoucherBurned has copy, drop {
+        // The Object ID of the NFT
+        object_id: ID,
+    }
+
     fun init(otw: KNS_VOUCHER, ctx: &mut TxContext) {
         let keys = vector[
             string::utf8(b"name"),
@@ -81,8 +86,12 @@ module payments::kns_voucher {
         }
     }     
 
-    public fun burn(nft: KNSVoucher, _: &mut TxContext) {
+    public fun burn(nft: KNSVoucher, _: &mut TxContext) {        
+        let object_id = object::id(&nft);
         let KNSVoucher { id } = nft;
-        object::delete(id)
+        object::delete(id);
+        event::emit(VoucherBurned {
+            object_id: object_id
+        })      
     }
 }
