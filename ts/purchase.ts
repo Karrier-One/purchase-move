@@ -13,7 +13,7 @@ export const keypair = Ed25519Keypair.fromSecretKey(raw.slice(1));
 
 // const packageId = "0x2bd4ae0f9c15728723cfd5a6208108b7c6bfa46622fcc0dd1519fe91d4a709ff"; // v1
 // sui client upgrade --upgrade-capability 0xab06fc4f8bebddb5681ffb18762502c934d7020541c6fcfe3e73fe42b52d739d
-const packageId = "0xabb29d54cb24de9572a10e10b21f420b4715a419cf1de88ae8ced28a52cf1f38"; // v2
+const packageId = "0x4915c961d415efe8e46b0ccab5b4b11f30f3af47b9543fafbce870718bd78145"; // v2
 
 async function purchase_sui() {
     const client = new SuiClient({url: getFullnodeUrl("testnet")});
@@ -117,6 +117,6 @@ function logToFile(message : string, filename = 'transaction_log.txt') {
     fs.appendFileSync(filename, formattedMessage);
 }
 
-//purchase_sui();
-purchase_kone();
+purchase_sui();
+//purchase_kone();
 //purchase_nft();
