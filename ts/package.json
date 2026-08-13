@@ -11,7 +11,6 @@
   "license": "ISC",
   "dependencies": {
     "@mysten/bcs": "^1.0.2",
-    "@mysten/kiosk": "^0.9.10",
     "@mysten/sui": "^1.2.1",
     "@types/json2csv": "^5.0.7",
     "axios": "^1.7.2",
